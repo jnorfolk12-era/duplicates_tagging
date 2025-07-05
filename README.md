@@ -32,12 +32,17 @@ python3 check_pending_against_existing.py \
   --out_csv checked_pending-7-4.csv \
   --skip_validation
 
-'all_csv' -> large csv of existing Solutions problems
-'pending_csv' -> smaller csv of new problems to be uploaded/delivered
-'all_id_col' -> columnn containing the problems' unique identifiers in the large csv
-'all_text_col' -> column containing the text of the problems themselves in the large csv
-'pending_id_col' -> column containing the problems' unique identifiers in the smaller csv
-'pending_text_col' -> column containing the text of the problems themselves in the smaller csv
+- 'all_csv' -> large csv of existing Solutions problems
+
+- 'pending_csv' -> smaller csv of new problems to be uploaded/delivered
+
+- 'all_id_col' -> columnn containing the problems' unique identifiers in the large csv
+
+- 'all_text_col' -> column containing the text of the problems themselves in the large csv
+
+- 'pending_id_col' -> column containing the problems' unique identifiers in the smaller csv
+
+- 'pending_text_col' -> column containing the text of the problems themselves in the smaller csv
 'out_csv' -> output file name
 'skip_validation' -> skips over a part of the script that requires an OpenAI code to operate
 
