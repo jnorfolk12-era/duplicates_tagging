@@ -43,7 +43,9 @@ python3 check_pending_against_existing.py \
 - 'pending_id_col' -> column containing the problems' unique identifiers in the smaller csv
 
 - 'pending_text_col' -> column containing the text of the problems themselves in the smaller csv
-'out_csv' -> output file name
-'skip_validation' -> skips over a part of the script that requires an OpenAI code to operate
+
+- 'out_csv' -> output file name
+  
+- 'skip_validation' -> skips over a part of the script that requires an OpenAI code to operate
 
 Note: it may be easiest to keep all relevant files in the same folder as the script when running.
