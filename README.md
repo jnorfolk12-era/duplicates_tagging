@@ -22,15 +22,17 @@ For checking for duplicates before auditing/delivering Solutions outputs to cust
 
 # How to Run in Terminal
 
-python3 check_pending_against_existing.py \\
-  --all_csv 7-4-all-solutions-delivered.csv \\
-  --pending_csv 7-4-pending-delivery-tasks.csv \\
-  --all_id_col "task_id" \\
-  --all_text_col "problem" \\
-  --pending_id_col "task_id" \\
-  --pending_text_col "Problem" \\
-  --out_csv checked_pending-7-4.csv \\
+```bash
+python3 check_pending_against_existing.py \
+  --all_csv 7-4-all-solutions-delivered.csv \
+  --pending_csv 7-4-pending-delivery-tasks.csv \
+  --all_id_col "task_id" \
+  --all_text_col "problem" \
+  --pending_id_col "task_id" \
+  --pending_text_col "Problem" \
+  --out_csv checked_pending-7-4.csv \
   --skip_validation
+```
 
 - 'all_csv' -> large csv of existing Solutions problems
 
