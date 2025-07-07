@@ -146,6 +146,9 @@ def main():
     pending_df["near_duplicate_max_similarity"] = near_dup_sim
     pending_df["near_duplicate_all_id"] = match_id_in_all
 
+    # ADD: flag exact ID duplicates
+    pending_df["is_exact_duplicate_id"] = pending_df[pending_id_col].isin(all_df[all_id_col])
+
     # Save output
     pending_df.to_csv(args.out_csv, index=False)
     print(f"Wrote pending file with near-duplicate flags to: {args.out_csv}")
