@@ -24,13 +24,15 @@ For checking for duplicates before auditing/delivering Solutions outputs to cust
 
 ```bash
 python3 check_pending_against_existing.py \
-  --all_csv 7-4-all-solutions-delivered.csv \
-  --pending_csv 7-4-pending-delivery-tasks.csv \
-  --all_id_col "task_id" \
+  --all_csv all_solutions_7-8.csv \
+  --pending_csv completed_7-8.csv \
+  --all_id_col "problem_id" \
+  --all_id_col2 "original_task_id" \
   --all_text_col "problem" \
-  --pending_id_col "task_id" \
-  --pending_text_col "Problem" \
-  --out_csv checked_pending-7-4.csv \
+  --pending_id_col "problem_id" \
+  --pending_id_col2 "task_id" \
+  --pending_text_col "problem" \
+  --out_csv completed_in_solutions_7-8.csv \
   --skip_validation
 ```
 
