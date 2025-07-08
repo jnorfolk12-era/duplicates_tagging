@@ -52,4 +52,6 @@ python3 check_pending_against_existing.py \
   
 - 'skip_validation' -> skips over a part of the script that requires an OpenAI code to operate
 
+- 'use_second_id_cols' -> looks at second ID columns. If omitted, only looks at first ID columns.
+
 Note: it may be easiest to keep all relevant files in the same folder as the script when running.
