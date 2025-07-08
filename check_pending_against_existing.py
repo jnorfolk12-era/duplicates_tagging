@@ -75,7 +75,7 @@ def main():
     p.add_argument("--all_csv", required=True, help="CSV with all existing problems")
     p.add_argument("--pending_csv", required=True, help="CSV with new pending problems to check")
 
-    # NEW: Allow different columns for each file
+    # ID and text columns
     p.add_argument("--all_id_col", default="#", help="ID column in all_csv")
     p.add_argument("--all_id_col2", default=None, help="Optional second ID column in all_csv")
     p.add_argument("--all_text_col", default="problem", help="Text column in all_csv")
@@ -83,6 +83,10 @@ def main():
     p.add_argument("--pending_id_col2", default=None, help="Optional second ID column in pending_csv")
     p.add_argument("--pending_text_col", default="problem", help="Text column in pending_csv")
 
+    # Switch for using second id cols
+    p.add_argument("--use_second_id_cols", action="store_true", help="If set, use the second ID columns for duplicate checking")
+
+    # Rest
     p.add_argument("--out_csv", default="pending_checked.csv", help="Output CSV with duplicate flags")
     p.add_argument("--sim_threshold", type=float, default=SIM_THRESHOLD,
                    help=f"Cosine similarity threshold for near-duplicate detection (default: {SIM_THRESHOLD})")
@@ -150,13 +154,14 @@ def main():
     pending_df["near_duplicate_max_similarity"] = near_dup_sim
     pending_df["near_duplicate_all_id"] = match_id_in_all
 
-    # ADD: flag exact ID duplicates (now supports 2 columns per file)
+    # Exact ID duplicate check, with --use_second_id_cols flag
     all_id_cols = [all_id_col]
     pending_id_cols = [pending_id_col]
-    if all_id_col2 and all_id_col2 in all_df.columns:
-        all_id_cols.append(all_id_col2)
-    if pending_id_col2 and pending_id_col2 in pending_df.columns:
-        pending_id_cols.append(pending_id_col2)
+    if args.use_second_id_cols:
+        if all_id_col2 and all_id_col2 in all_df.columns:
+            all_id_cols.append(all_id_col2)
+        if pending_id_col2 and pending_id_col2 in pending_df.columns:
+            pending_id_cols.append(pending_id_col2)
 
     # Make sets of all existing IDs
     all_ids = set()
