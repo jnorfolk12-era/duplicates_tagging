@@ -77,8 +77,10 @@ def main():
 
     # NEW: Allow different columns for each file
     p.add_argument("--all_id_col", default="#", help="ID column in all_csv")
+    p.add_argument("--all_id_col2", default=None, help="Optional second ID column in all_csv")
     p.add_argument("--all_text_col", default="problem", help="Text column in all_csv")
     p.add_argument("--pending_id_col", default="#", help="ID column in pending_csv")
+    p.add_argument("--pending_id_col2", default=None, help="Optional second ID column in pending_csv")
     p.add_argument("--pending_text_col", default="problem", help="Text column in pending_csv")
 
     p.add_argument("--out_csv", default="pending_checked.csv", help="Output CSV with duplicate flags")
@@ -102,8 +104,10 @@ def main():
 
     # Get col names
     all_id_col = args.all_id_col
+    all_id_col2 = args.all_id_col2
     all_text_col = args.all_text_col
     pending_id_col = args.pending_id_col
+    pending_id_col2 = args.pending_id_col2
     pending_text_col = args.pending_text_col
 
     # Optionally validate pending problems (pass@3)
@@ -146,8 +150,24 @@ def main():
     pending_df["near_duplicate_max_similarity"] = near_dup_sim
     pending_df["near_duplicate_all_id"] = match_id_in_all
 
-    # ADD: flag exact ID duplicates
-    pending_df["is_exact_duplicate_id"] = pending_df[pending_id_col].isin(all_df[all_id_col])
+    # ADD: flag exact ID duplicates (now supports 2 columns per file)
+    all_id_cols = [all_id_col]
+    pending_id_cols = [pending_id_col]
+    if all_id_col2 and all_id_col2 in all_df.columns:
+        all_id_cols.append(all_id_col2)
+    if pending_id_col2 and pending_id_col2 in pending_df.columns:
+        pending_id_cols.append(pending_id_col2)
+
+    # Make sets of all existing IDs
+    all_ids = set()
+    for col in all_id_cols:
+        all_ids.update(all_df[col].astype(str))
+
+    # Mark as duplicate if any ID in pending matches any ID in all
+    def is_duplicate_row(row):
+        return any(str(row[col]) in all_ids for col in pending_id_cols)
+
+    pending_df["is_exact_duplicate_id"] = pending_df.apply(is_duplicate_row, axis=1)
 
     # Save output
     pending_df.to_csv(args.out_csv, index=False)
