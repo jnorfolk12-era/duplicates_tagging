@@ -34,9 +34,11 @@ N_THREADS = 8
 SIM_THRESHOLD = 0.90
 EMBED_MODEL = "all-mpnet-base-v2"
 
-def canonicalize(text: str) -> str:
+def canonicalize(text) -> str:
+    if pd.isna(text):
+        return ""
     return (
-        text.strip()
+        str(text).strip()
         .lower()
         .replace("'", "'")
         .replace(""", '"').replace(""", '"')
